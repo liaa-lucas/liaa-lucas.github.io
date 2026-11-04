@@ -129,6 +129,16 @@
   .refs li{margin-bottom:.7em;font-size:.95rem}
   .refs .bloco{font-weight:900;color:var(--roxo);margin:18px 0 8px}
 
+  /* apoie */
+  .apoie{display:grid;grid-template-columns:1.4fr 1fr;gap:32px;align-items:center;padding:36px}
+  .pix{background:#fff;border:2px solid var(--borda);border-bottom-width:5px;border-radius:var(--raio);padding:24px;text-align:center}
+  .pix-titulo{font-weight:900;color:var(--roxo);text-transform:uppercase;letter-spacing:.12em;font-size:.85rem}
+  .pix-nome{font-weight:800;margin:6px 0 10px}
+  .pix-chave code{display:inline-block;background:var(--roxo-claro);border-radius:10px;padding:8px 14px;font-size:1.05rem;font-weight:700;word-break:break-all;margin-bottom:16px}
+  .pix .btn{border:0;cursor:pointer;font-family:inherit}
+  .pix-ok{color:var(--verde);font-weight:800;min-height:1.4em;margin-top:10px}
+  @media(max-width:860px){.apoie{grid-template-columns:1fr;padding:24px}}
+
   footer{background:var(--noite);color:#B9A8F0;padding:44px 0;font-size:.95rem}
   footer .wrap{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:center}
   footer b{color:#fff}
@@ -149,6 +159,7 @@
       <li><a href="#evolucao">Evolução</a></li>
       <li><a href="#andamento">Andamento</a></li>
       <li><a href="#referencias">Referências</a></li>
+      <li><a href="#apoie">Apoie</a></li>
     </ul>
   </div>
 </nav>
@@ -429,6 +440,26 @@
   </div>
 </section>
 
+<!-- ============ APOIE ============ -->
+<section id="apoie">
+  <div class="wrap">
+    <div class="cartao destaque apoie">
+      <div>
+        <div class="rotulo">Apoie o projeto</div>
+        <h2>Ajude o Farol a iluminar mais crianças</h2>
+        <p>O Farol é desenvolvido de forma independente. Contribuições ajudam com celulares de teste, suportes e o tempo de desenvolvimento, para que o app chegue a mais famílias e escolas.</p>
+      </div>
+      <div class="pix">
+        <div class="pix-titulo">Pix</div>
+        <div class="pix-nome" id="pix-nome"></div>
+        <div class="pix-chave"><code id="pix-chave"></code></div>
+        <button class="btn btn-amarelo" id="pix-copiar" type="button">Copiar chave Pix</button>
+        <div class="pix-ok" id="pix-ok" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <footer>
   <div class="wrap">
     <div><b>Projeto Farol</b> · Laboratório de IA Aplicada · PPGES/Unipampa · 2026</div>
@@ -446,6 +477,12 @@ const ANDAMENTO = {
   status: "Coleta rotulada em andamento",
   gabaritoHoras: 0,      // horas de gabarito já validadas
   gabaritoMeta: 3
+};
+
+/* APOIE — nome e chave Pix mostrados na seção "Apoie o projeto" */
+const PIX = {
+  nome: "Lucas Alves São Mateus",
+  chave: "lucascc2016fe@gmail.com"
 };
 
 const DIARIO = [
@@ -504,6 +541,15 @@ const h = ANDAMENTO.gabaritoHoras, meta = ANDAMENTO.gabaritoMeta;
 const hh = Math.floor(h), mm = Math.round((h - hh) * 60);
 document.getElementById("gab-num").innerHTML = `${hh} h${mm ? " " + mm + " min" : ""} <small>/ ${meta} h</small>`;
 document.getElementById("gab-barra").style.width = Math.min(100, h / meta * 100) + "%";
+
+/* Pix */
+document.getElementById("pix-nome").textContent = PIX.nome;
+document.getElementById("pix-chave").textContent = PIX.chave;
+document.getElementById("pix-copiar").addEventListener("click", async () => {
+  const ok = document.getElementById("pix-ok");
+  try { await navigator.clipboard.writeText(PIX.chave); ok.textContent = "Chave copiada! Obrigado ✨"; }
+  catch (e) { ok.textContent = "Selecione a chave acima e copie."; }
+});
 
 /* destaca o item do menu da seção visível */
 const links = [...document.querySelectorAll("nav li a")];
