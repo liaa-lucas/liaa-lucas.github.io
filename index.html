@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Projeto Farol · Laboratório de IA Aplicada</title>
+<meta name="description" content="Projeto Farol: app Android que estima, no próprio celular e sem gravar imagens, se a criança está engajada na tarefa escolar, e a chama de volta com cuidado.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --roxo:#8B5CF6; --roxo-escuro:#6D3FD9; --roxo-claro:#EDE7FE; --roxo-texto:#3B1F7A;
+    --noite:#1E1240; --noite-2:#2A1A5C;
+    --amarelo:#FFC83D; --amarelo-escuro:#E0A500; --laranja:#FF9600;
+    --verde:#58A700; --vermelho:#FF4B4B; --cinza:#6B6480; --borda:#E5E0F2; --branco:#fff;
+    --raio:20px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:"Nunito",system-ui,sans-serif;color:var(--roxo-texto);background:#FBFAFF;line-height:1.6;font-size:17px}
+  a{color:var(--roxo-escuro)}
+  h1,h2,h3{line-height:1.2;margin:0 0 .5em;font-weight:900}
+  h2{font-size:clamp(1.7rem,3.2vw,2.4rem)}
+  h3{font-size:1.15rem;font-weight:800}
+  p{margin:0 0 1em}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 24px}
+
+  /* navegação */
+  nav{position:sticky;top:0;z-index:20;background:rgba(30,18,64,.92);backdrop-filter:blur(8px)}
+  nav .wrap{display:flex;align-items:center;gap:20px;height:60px}
+  nav .marca{display:flex;align-items:center;gap:10px;color:#fff;font-weight:900;text-decoration:none;font-size:1.1rem}
+  nav ul{display:flex;gap:4px;list-style:none;margin:0 0 0 auto;padding:0;overflow-x:auto}
+  nav li a{display:block;color:#D9CCFF;text-decoration:none;font-weight:700;font-size:.92rem;padding:8px 12px;border-radius:999px;white-space:nowrap}
+  nav li a:hover,nav li a.ativo{background:var(--roxo);color:#fff}
+  @media(max-width:860px){nav ul{display:none}}
+
+  /* topo */
+  header.hero{background:radial-gradient(circle at 80% 20%,#3d2a85 0,var(--noite) 55%);color:#fff;overflow:hidden;position:relative}
+  .hero .wrap{display:grid;grid-template-columns:1.2fr .8fr;gap:32px;align-items:center;padding-top:72px;padding-bottom:88px}
+  .hero .selo{display:inline-block;background:rgba(255,200,61,.15);color:var(--amarelo);border:1px solid rgba(255,200,61,.4);padding:6px 14px;border-radius:999px;font-weight:800;font-size:.85rem;margin-bottom:18px}
+  .hero h1{font-size:clamp(2.6rem,6vw,4.4rem);margin-bottom:.25em}
+  .hero h1 span{color:var(--amarelo)}
+  .hero .lead{font-size:1.25rem;color:#E4DAFF;max-width:36ch}
+  .hero .meta{color:#B9A8F0;font-size:.95rem;margin-top:24px}
+  .botoes{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+  .btn{display:inline-block;font-weight:900;text-decoration:none;padding:14px 22px;border-radius:16px;letter-spacing:.02em;text-transform:uppercase;font-size:.9rem;transition:transform .1s}
+  .btn:active{transform:translateY(3px)}
+  .btn-amarelo{background:var(--amarelo);color:var(--roxo-texto);box-shadow:0 5px 0 var(--amarelo-escuro)}
+  .btn-contorno{border:2px solid #7E66D8;color:#fff;box-shadow:0 5px 0 #4a3596}
+  .farol-svg{width:100%;max-width:340px;justify-self:center}
+  .feixe{transform-origin:150px 96px;animation:gira 7s ease-in-out infinite}
+  @keyframes gira{0%,100%{transform:rotate(-18deg)}50%{transform:rotate(18deg)}}
+  @media (prefers-reduced-motion:reduce){.feixe{animation:none}}
+  @media(max-width:860px){.hero .wrap{grid-template-columns:1fr}.farol-svg{max-width:220px}}
+
+  /* seções */
+  section{padding:84px 0;scroll-margin-top:60px}
+  section.alt{background:#fff;border-top:1px solid var(--borda);border-bottom:1px solid var(--borda)}
+  .rotulo{color:var(--roxo);font-weight:900;text-transform:uppercase;letter-spacing:.12em;font-size:.8rem;margin-bottom:8px}
+  .intro{font-size:1.12rem;max-width:68ch;color:#4b3a7d}
+  .grade{display:grid;gap:20px}
+  .g2{grid-template-columns:repeat(2,1fr)} .g3{grid-template-columns:repeat(3,1fr)} .g4{grid-template-columns:repeat(4,1fr)}
+  @media(max-width:860px){.g2,.g3,.g4{grid-template-columns:1fr}}
+  .cartao{background:#fff;border:2px solid var(--borda);border-bottom-width:5px;border-radius:var(--raio);padding:24px}
+  section.alt .cartao{background:#FBFAFF}
+  .cartao .ic{font-size:1.8rem;line-height:1;margin-bottom:12px}
+  .cartao p:last-child{margin-bottom:0}
+  .cartao.destaque{background:var(--roxo-claro);border-color:#D4C6FB}
+
+  /* números */
+  .num{font-size:2.6rem;font-weight:900;color:var(--roxo);line-height:1}
+  .num small{font-size:1rem;color:var(--cinza);font-weight:700}
+  .num.vermelho{color:var(--vermelho)} .num.verde{color:var(--verde)} .num.laranja{color:var(--laranja)}
+  .legenda{color:var(--cinza);font-size:.95rem;margin-top:8px}
+
+  /* citação */
+  .frase{font-size:clamp(1.3rem,2.6vw,1.75rem);font-weight:800;border-left:6px solid var(--amarelo);padding:6px 0 6px 22px;margin:36px 0;max-width:40ch}
+
+  /* pipeline */
+  .pipeline{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin:32px 0}
+  .etapa{background:#fff;border:2px solid var(--borda);border-bottom:5px solid var(--roxo);border-radius:18px;padding:18px 14px;text-align:center;position:relative}
+  .etapa .ic{font-size:1.9rem}
+  .etapa b{display:block;margin:6px 0 4px;font-weight:900}
+  .etapa span{font-size:.88rem;color:var(--cinza);display:block;line-height:1.4}
+  .etapa:not(:last-child)::after{content:"→";position:absolute;right:-13px;top:50%;transform:translateY(-50%);color:var(--roxo);font-weight:900;z-index:2}
+  @media(max-width:860px){.pipeline{grid-template-columns:repeat(2,1fr)}.etapa::after{display:none}}
+
+  /* estados */
+  .estados{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+  .pilula{padding:8px 16px;border-radius:999px;font-weight:800;font-size:.92rem;border:2px solid}
+  .p-verde{color:#3d7500;background:#EAF7D9;border-color:#BFE59A}
+  .p-amarelo{color:#8a5c00;background:#FFF4D6;border-color:#FFE08A}
+  .p-vermelho{color:#B42323;background:#FFE5E5;border-color:#FFC2C2}
+  .p-cinza{color:var(--cinza);background:#F3F1F8;border-color:var(--borda)}
+
+  /* listas */
+  ol.limpa{padding-left:1.3em;margin:0} ol.limpa li{margin-bottom:.55em}
+  ol.limpa li::marker{color:var(--roxo);font-weight:900}
+
+  /* linha do tempo */
+  .tempo{position:relative;margin-top:40px;padding-left:34px}
+  .tempo::before{content:"";position:absolute;left:11px;top:6px;bottom:6px;width:4px;background:linear-gradient(var(--roxo),var(--amarelo));border-radius:4px}
+  .marco{position:relative;margin-bottom:22px}
+  .marco::before{content:"";position:absolute;left:-30px;top:20px;width:16px;height:16px;border-radius:50%;background:#fff;border:4px solid var(--roxo)}
+  .marco.atual::before{background:var(--amarelo);border-color:var(--amarelo-escuro);box-shadow:0 0 0 6px rgba(255,200,61,.3)}
+  .marco .cartao{padding:18px 22px}
+  .marco .topo{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:baseline;margin-bottom:6px}
+  .marco .data{font-weight:900;color:var(--roxo)}
+  .marco .versao{background:var(--roxo);color:#fff;font-weight:800;font-size:.78rem;padding:3px 10px;border-radius:999px}
+  .marco h3{margin:0;font-size:1.08rem}
+  .marco ul{margin:.4em 0 0;padding-left:1.2em} .marco li{margin-bottom:.25em}
+  .marco .licao{margin-top:10px;background:#FFF8E5;border-radius:12px;padding:10px 14px;font-size:.95rem}
+  .marco .licao b{color:#8a5c00}
+
+  /* progresso */
+  .barra{height:18px;background:#EEE9FB;border-radius:999px;overflow:hidden;margin:10px 0 6px;border:2px solid var(--borda)}
+  .barra i{display:block;height:100%;background:linear-gradient(90deg,var(--roxo),#a98bff);border-radius:999px;min-width:6px}
+  .status{display:inline-flex;align-items:center;gap:8px;font-weight:800;font-size:.9rem;padding:6px 14px;border-radius:999px;background:#FFF4D6;color:#8a5c00}
+  .status::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--laranja);animation:pulsa 1.6s infinite}
+  @keyframes pulsa{50%{opacity:.3}}
+
+  /* tabela */
+  table{width:100%;border-collapse:collapse;font-size:.95rem}
+  th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--borda);vertical-align:top}
+  th{color:var(--roxo);font-weight:900}
+
+  /* referências */
+  .refs li{margin-bottom:.7em;font-size:.95rem}
+  .refs .bloco{font-weight:900;color:var(--roxo);margin:18px 0 8px}
+
+  footer{background:var(--noite);color:#B9A8F0;padding:44px 0;font-size:.95rem}
+  footer .wrap{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:center}
+  footer b{color:#fff}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="marca" href="#topo">
+      <svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true"><path d="M12 30h8l-1.5-18h-5z" fill="#fff"/><rect x="11" y="7" width="10" height="6" rx="2" fill="#FFC83D"/><path d="M10 7l6-5 6 5z" fill="#8B5CF6"/><rect x="13" y="18" width="6" height="2.5" fill="#FF4B4B"/><rect x="12.6" y="23" width="6.8" height="2.5" fill="#FF4B4B"/></svg>
+      Projeto Farol
+    </a>
+    <ul>
+      <li><a href="#contexto">Contexto</a></li>
+      <li><a href="#problema">Problema</a></li>
+      <li><a href="#proposta">Proposta</a></li>
+      <li><a href="#evolucao">Evolução</a></li>
+      <li><a href="#andamento">Andamento</a></li>
+      <li><a href="#referencias">Referências</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero" id="topo">
+  <div class="wrap">
+    <div>
+      <div class="selo">Laboratório de IA Aplicada · PPGES/Unipampa · 2026</div>
+      <h1>Projeto <span>Farol</span></h1>
+      <p class="lead">Um app Android que percebe, pela câmera frontal e sem gravar nenhuma imagem, quando a criança se afasta da tarefa escolar e a chama de volta com gentileza.</p>
+      <div class="botoes">
+        <a class="btn btn-amarelo" href="#proposta">Como funciona</a>
+        <a class="btn btn-contorno" href="#andamento">Onde estamos</a>
+      </div>
+      <p class="meta">Lucas Alves São Mateus · Prof. Diego · Alegrete, RS</p>
+    </div>
+    <svg class="farol-svg" viewBox="0 0 300 320" role="img" aria-label="Ilustração de um farol com o feixe de luz girando">
+      <defs>
+        <linearGradient id="luz" x1="0" x2="1"><stop offset="0" stop-color="#FFC83D" stop-opacity=".85"/><stop offset="1" stop-color="#FFC83D" stop-opacity="0"/></linearGradient>
+      </defs>
+      <circle cx="40" cy="40" r="2" fill="#fff" opacity=".7"/><circle cx="250" cy="60" r="1.6" fill="#fff" opacity=".6"/><circle cx="270" cy="150" r="2" fill="#fff" opacity=".5"/><circle cx="20" cy="140" r="1.5" fill="#fff" opacity=".6"/>
+      <g class="feixe"><path d="M150 96 L300 50 L300 142 Z" fill="url(#luz)"/><path d="M150 96 L0 50 L0 142 Z" fill="url(#luz)"/></g>
+      <path d="M40 300 Q150 270 260 300 L260 320 L40 320 Z" fill="#2A1A5C"/>
+      <path d="M118 296 L182 296 L170 128 L130 128 Z" fill="#fff"/>
+      <path d="M126 180 L174 180 L172.4 158 L127.6 158 Z" fill="#FF4B4B"/>
+      <path d="M122.2 236 L177.8 236 L176 212 L124 212 Z" fill="#FF4B4B"/>
+      <rect x="122" y="118" width="56" height="12" rx="4" fill="#6D3FD9"/>
+      <rect x="132" y="80" width="36" height="38" rx="8" fill="#FFC83D"/>
+      <circle cx="150" cy="99" r="9" fill="#fff"/>
+      <path d="M124 82 L150 58 L176 82 Z" fill="#8B5CF6"/>
+      <circle cx="150" cy="56" r="4" fill="#8B5CF6"/>
+      <rect x="142" y="262" width="16" height="34" rx="8" fill="#6D3FD9"/>
+    </svg>
+  </div>
+</header>
+
+<!-- ============ CONTEXTO ============ -->
+<section id="contexto">
+  <div class="wrap">
+    <div class="rotulo">1 · Contexto</div>
+    <h2>A tarefa de casa e a atenção que vai e volta</h2>
+    <p class="intro">Fazer a tarefa sozinha exige da criança uma habilidade que ainda está em formação: perceber que a cabeça foi para longe e voltar por conta própria. Em casa, o adulto costuma ficar entre dois extremos: acompanhar o tempo todo ou deixar a criança sozinha.</p>
+
+    <div class="grade g3" style="margin-top:32px">
+      <div class="cartao">
+        <div class="ic">🧠</div>
+        <h3>A mente divaga, e isso é normal</h3>
+        <p>Em crianças, a divagação da mente é frequente e está ligada ao desenvolvimento das funções executivas: controle inibitório, memória de trabalho e flexibilidade.</p>
+      </div>
+      <div class="cartao">
+        <div class="ic">👀</div>
+        <h3>Vigiar o tempo todo não ensina</h3>
+        <p>A supervisão constante dos pais, chamada de "parentalidade helicóptero", aparece na literatura associada a mais procrastinação e menos autonomia.</p>
+      </div>
+      <div class="cartao">
+        <div class="ic">📱</div>
+        <h3>O celular já está na mesa</h3>
+        <p>A câmera frontal e os sensores de um celular comum, aliados a modelos de visão que rodam no próprio aparelho, permitem um apoio barato, sem equipamento extra.</p>
+      </div>
+    </div>
+
+    <p class="frase">O Farol não quer vigiar a criança. Ele quer ajudá-la a perceber sozinha que se distraiu.</p>
+
+    <div class="grade g2">
+      <div class="cartao destaque">
+        <h3>👧 Para quem</h3>
+        <p>O protótipo é usado por uma criança do ensino fundamental, filha do autor, durante as tarefas escolares do dia a dia, com o consentimento e o acompanhamento da família.</p>
+      </div>
+      <div class="cartao destaque">
+        <h3>🔒 Privacidade em primeiro lugar</h3>
+        <p>Todo o processamento acontece no celular. A imagem vira números e é descartada na hora. Nenhuma foto ou vídeo é gravado ou enviado: só os números da sessão (CSV) saem do aparelho.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROBLEMA ============ -->
+<section id="problema" class="alt">
+  <div class="wrap">
+    <div class="rotulo">2 · Problema</div>
+    <h2>Detectar engajamento, não só pose</h2>
+    <p class="intro">A ideia inicial parecia simples: se a cabeça está voltada para o caderno, a criança está estudando. Os dados reais mostraram que não é bem assim. A pergunta central do projeto passou a ser:</p>
+    <p class="frase">Como estimar, só com o celular, se a criança está engajada na tarefa, e não apenas de frente para o caderno?</p>
+
+    <div class="grade g4">
+      <div class="cartao">
+        <div class="num vermelho">42%</div>
+        <p class="legenda">do tempo marcado como "desatenta" numa prova de 101 min em que ela ficou atenta do início ao fim (v1.0), com <b>9 chamados falsos</b>.</p>
+      </div>
+      <div class="cartao">
+        <div class="num laranja">99°</div>
+        <p class="legenda">de variação no giro (yaw) da pose típica dela em relação ao celular entre sessões, e 34° na inclinação (pitch). O celular muda de lugar.</p>
+      </div>
+      <div class="cartao">
+        <div class="num">23% <small>× 25%</small></div>
+        <p class="legenda">de cabeça fora antes dos chamados que ela confirmou × antes dos que rejeitou. A resposta da criança não serve de gabarito.</p>
+      </div>
+      <div class="cartao">
+        <div class="num verde">5 <small>de 5</small></div>
+        <p class="legenda">perguntas respondidas "lendo" nas primeiras sessões da v1.1, incluindo duas em que o app viu a cabeça fora em mais de 98% da janela.</p>
+      </div>
+    </div>
+
+    <h3 style="margin-top:44px">Por que é difícil</h3>
+    <ol class="limpa" style="max-width:75ch">
+      <li><b>Ambiguidade:</b> ler, pensar e se distrair podem ter a mesma pose. Pensar parece distração (alarme falso) e ficar parada olhando o caderno parece estudo (distração que passa).</li>
+      <li><b>Montagem instável:</b> o celular é apoiado em lugares e ângulos diferentes a cada dia; uma referência fixa de ângulos não se sustenta.</li>
+      <li><b>Ambiente:</b> luz baixa, contraluz e rosto visto de baixo derrubam a detecção.</li>
+      <li><b>Sem gabarito:</b> sem saber o que a criança realmente fazia em cada minuto, não dá para dizer quem errou, o app ou a resposta dela.</li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============ PROPOSTA ============ -->
+<section id="proposta">
+  <div class="wrap">
+    <div class="rotulo">3 · Proposta de solução</div>
+    <h2>Um farol que chama de volta, aos poucos</h2>
+    <p class="intro">O celular fica num suporte na mesa, de frente para a criança. Cerca de 10 vezes por segundo, o app transforma a imagem em números, acompanha esses números no tempo e decide se é hora de chamar a atenção dela.</p>
+
+    <div class="pipeline">
+      <div class="etapa"><div class="ic">📷</div><b>Captura</b><span>câmera frontal (CameraX)</span></div>
+      <div class="etapa"><div class="ic">🧠</div><b>Percepção</b><span>MediaPipe Face Landmarker: 478 pontos, íris e pose</span></div>
+      <div class="etapa"><div class="ic">🔢</div><b>Métricas</b><span>pitch, yaw, olhos, rosto presente, sensores</span></div>
+      <div class="etapa"><div class="ic">⏱️</div><b>Série temporal</b><span>quanto tempo fora da zona de estudo</span></div>
+      <div class="etapa"><div class="ic">⚖️</div><b>Inferência</b><span>regra por limiares, adaptativa</span></div>
+      <div class="etapa"><div class="ic">💡</div><b>Ação</b><span>tela vermelha, depois voz de reforço</span></div>
+    </div>
+
+    <div class="grade g2">
+      <div class="cartao">
+        <h3>Como o Farol decide (v1.1)</h3>
+        <ol class="limpa">
+          <li><b>Calibração de 2 min</b> no início: mede a pose dela estudando.</li>
+          <li><b>Zona de estudo adaptativa:</b> o centro é a mediana da pose nos últimos 10 min, só com os quadros em que ela estava dentro.</li>
+          <li><b>Fora da zona:</b> giro de 25° ou mais, ou cabeça erguida mais de 15°. Cabeça mais baixa conta sempre como dentro.</li>
+          <li><b>Só chama depois de 2 min seguidos fora.</b> Uma olhadinha não gera alerta; rosto sumido por até 5 s pausa a contagem.</li>
+        </ol>
+        <div class="estados">
+          <span class="pilula p-verde">Atenta</span>
+          <span class="pilula p-amarelo">Possível desatenção</span>
+          <span class="pilula p-vermelho">Desatenta</span>
+          <span class="pilula p-vermelho">Sinais de sono</span>
+          <span class="pilula p-cinza">Rosto não encontrado</span>
+        </div>
+      </div>
+      <div class="cartao">
+        <h3>Como o Farol age</h3>
+        <ol class="limpa">
+          <li>Durante a sessão, a <b>tela fica preta</b>, para o próprio celular não virar distração.</li>
+          <li>Se ela se afasta, a <b>tela fica vermelha aos poucos</b> (a luz pega a visão periférica).</li>
+          <li>Se não bastar, uma <b>voz de reforço</b>, que pode ser gravada pela família, elogia o esforço e convida a continuar.</li>
+          <li>Em horas sorteadas, uma <b>pergunta-surpresa</b> ("escrevendo, lendo, pensando ou outra coisa?") gera rótulos.</li>
+          <li>No fim, a tela <b>"Sessão concluída!"</b> mostra tempo, foco e um elogio. A sequência de dias só soma, nunca pune.</li>
+        </ol>
+      </div>
+    </div>
+
+    <h3 style="margin-top:44px">Princípios de projeto</h3>
+    <div class="grade g3">
+      <div class="cartao"><div class="ic">📏</div><h3>Desatenção é algo que dura</h3><p>O estado é julgado sobre janelas de tempo, nunca por um quadro isolado.</p></div>
+      <div class="cartao"><div class="ic">🧩</div><h3>Regra antes de modelo</h3><p>Começar com uma regra explicável e trocá-la por um modelo treinado só quando houver dados rotulados confiáveis.</p></div>
+      <div class="cartao"><div class="ic">🎯</div><h3>Gabarito observado</h3><p>Adultos marcam, a cada minuto, o que a criança está fazendo. É contra isso que o app é medido.</p></div>
+    </div>
+
+    <h3 style="margin-top:44px">Tecnologias</h3>
+    <div class="cartao">
+      <table>
+        <tr><th>App</th><td>Kotlin · Android (minSdk 24, target 34) · CameraX · MediaPipe Tasks Vision (Face Landmarker) · TextToSpeech · JUnit</td></tr>
+        <tr><th>Análise</th><td>Python 3 · scripts de simulação de alerta, comparação de condições e validação de rótulos (kappa de Cohen)</td></tr>
+        <tr><th>Dados</th><td>CSV por segundo e por evento · envio automático por Google Apps Script para o Drive da família</td></tr>
+        <tr><th>Bancada</th><td>"Farol Teste": app separado que transmite os ângulos e os sensores por Wi-Fi para um painel no PC</td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ============ EVOLUÇÃO ============ -->
+<section id="evolucao" class="alt">
+  <div class="wrap">
+    <div class="rotulo">4 · Evolução</div>
+    <h2>Diário de bordo</h2>
+    <p class="intro">Cada versão nasceu de um problema encontrado nos dados da anterior. A linha do tempo abaixo é atualizada ao longo do semestre.</p>
+    <div class="tempo" id="linha-do-tempo"></div>
+  </div>
+</section>
+
+<!-- ============ ANDAMENTO ============ -->
+<section id="andamento">
+  <div class="wrap">
+    <div class="rotulo">5 · Andamento</div>
+    <h2>Onde o projeto está agora</h2>
+    <p><span class="status" id="status-atual">Coleta rotulada em andamento</span></p>
+
+    <div class="grade g3" style="margin-top:24px">
+      <div class="cartao">
+        <h3>Gabarito rotulado</h3>
+        <div class="num" id="gab-num">0 h <small>/ 3 h</small></div>
+        <div class="barra"><i id="gab-barra" style="width:0%"></i></div>
+        <p class="legenda">Minutos em que os dois observadores concordam (estudando × distraída).</p>
+      </div>
+      <div class="cartao">
+        <h3>Sessões gravadas</h3>
+        <div class="num">42 <small>sessões</small></div>
+        <p class="legenda">39 sessões (5,0 h) até 18/10, mais 3 sessões da v1.1 (55 min). Ainda sem rótulo observado.</p>
+      </div>
+      <div class="cartao">
+        <h3>Versão em uso</h3>
+        <div class="num">v1.2</div>
+        <p class="legenda">Regra da v1.1, agora com dois observadores e sensores do celular gravados no CSV.</p>
+      </div>
+    </div>
+
+    <div class="grade g2" style="margin-top:28px">
+      <div class="cartao destaque">
+        <h3>🔬 Como a coleta funciona (v1.2)</h3>
+        <ol class="limpa">
+          <li>Três celulares na mesma rede: o da criança (sessão de estudo) e os do pai e da mãe (modo observador).</li>
+          <li>A cada virada de minuto, os dois observadores marcam o que ela está fazendo, sem combinar a resposta.</li>
+          <li>Um script calcula cobertura, sincronia dos relógios, concordância (kappa) e compara o app com o gabarito.</li>
+          <li>A sessão só entra no gabarito se kappa ≥ 0,6, cada observador marcar ao menos 80% dos minutos e os relógios estiverem a até 5 s.</li>
+          <li>Meta: 3 h de gabarito em 2 semanas, com 2 sessões por dia.</li>
+        </ol>
+      </div>
+      <div class="cartao">
+        <h3>➡️ Próximos passos</h3>
+        <ol class="limpa">
+          <li>Rodar a coleta com dois observadores até chegar a 3 h de gabarito.</li>
+          <li>Medir v1.0 e v1.1 contra o gabarito: alarmes falsos e distrações que passaram.</li>
+          <li>Testar na bancada os sinais dos sensores (inclinação do celular, "celular mexido", luz e proximidade).</li>
+          <li>Recomeçar a zona de estudo quando o celular for mexido, para evitar a "zona travada".</li>
+          <li>Só então testar sinais novos (olhar, mão no caderno) e um modelo treinado no lugar da regra, separando treino e teste por sessão.</li>
+        </ol>
+      </div>
+    </div>
+
+    <h3 style="margin-top:44px">Riscos conhecidos</h3>
+    <div class="grade g4">
+      <div class="cartao"><div class="ic">🔒</div><h3>Zona travada</h3><p>Calibração fora do lugar ou celular arrastado deixam a zona longe da pose real. Visto ao vivo em 29/10.</p></div>
+      <div class="cartao"><div class="ic">🌙</div><h3>Luz e ângulo</h3><p>Luz baixa, contraluz e celular muito baixo derrubam a detecção do rosto.</p></div>
+      <div class="cartao"><div class="ic">🤔</div><h3>Ambiguidade</h3><p>Pensar e se distrair se parecem. Só rótulos observados resolvem.</p></div>
+      <div class="cartao"><div class="ic">🧪</div><h3>Viés de observação</h3><p>Saber que está sendo observada pode mudar o comportamento da criança durante a coleta.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ REFERÊNCIAS ============ -->
+<section id="referencias" class="alt">
+  <div class="wrap">
+    <div class="rotulo">6 · Referências</div>
+    <h2>O que embasa o projeto</h2>
+    <div class="grade g2 refs">
+      <div>
+        <div class="bloco">Soluções tecnológicas</div>
+        <ol class="limpa">
+          <li>Current status and challenges of AI application in managing children's emotions and attention. Revisão narrativa, 2026. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC13305600/" target="_blank" rel="noopener">link</a></li>
+          <li>Berrezueta-Guzman et al. Assessment of a Robotic Assistant for Supporting Homework Activities of Children with ADHD. <i>IEEE Access</i>, v. 9, 2021.</li>
+          <li>Assessing student engagement from facial behavior in on-line learning. <i>Multimedia Tools and Applications</i>, 2022. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9589763/" target="_blank" rel="noopener">link</a></li>
+          <li>From the lab to the wild: examining generalizability of video-based mind wandering detection. <i>IJAIED</i>, v. 35, 2025. <a href="https://doi.org/10.1007/s40593-024-00412-2" target="_blank" rel="noopener">link</a></li>
+          <li>Attention monitoring of students during online classes using XGBoost classifier. <i>Computers and Education: AI</i>, 2023. <a href="https://www.sciencedirect.com/science/article/pii/S2666920X2300070X" target="_blank" rel="noopener">link</a></li>
+          <li>Monitoring and improving student attention using deep learning and wireless sensor networks. <i>Sensors and Actuators A</i>, 2024. <a href="https://www.sciencedirect.com/science/article/abs/pii/S0924424724000487" target="_blank" rel="noopener">link</a></li>
+          <li>Two single arm trials of AKL-T01 (EndeavorRx), a digital therapeutic for ADHD. <i>npj Mental Health Research</i>, 2024. <a href="https://www.nature.com/articles/s44184-024-00075-w" target="_blank" rel="noopener">link</a></li>
+        </ol>
+      </div>
+      <div>
+        <div class="bloco">Atenção e divagação da mente</div>
+        <ol class="limpa">
+          <li>Reconceptualizing mind wandering from a switching perspective. <i>Psychological Research</i>, 2022. <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9928802/" target="_blank" rel="noopener">link</a></li>
+          <li>Katsantonis &amp; Katsantonis. Mapping the relationship between core executive functions and mind wandering in children and adolescents: a systematic review. <i>Journal of Intelligence</i>, 2026. <a href="https://doi.org/10.3390/jintelligence14020020" target="_blank" rel="noopener">link</a></li>
+          <li>A developmental perspective on mind wandering and its relation to goal-directed thought. <i>Developmental Review</i>, 2025. <a href="https://www.sciencedirect.com/science/article/pii/S105381002500025X" target="_blank" rel="noopener">link</a></li>
+          <li>Keulers &amp; Jonkman. Mind wandering in children: examining task-unrelated thoughts in computerized tasks and a classroom lesson. <i>J. Exp. Child Psychology</i>, 2019. <a href="https://pubmed.ncbi.nlm.nih.gov/30562634/" target="_blank" rel="noopener">link</a></li>
+          <li>Hasan et al. Unraveling the relationship between executive function and mind wandering in childhood ADHD. <i>Child Neuropsychology</i>, 2025. <a href="https://pubmed.ncbi.nlm.nih.gov/39639844/" target="_blank" rel="noopener">link</a></li>
+          <li>Relationship between helicopter parenting and Chinese elementary school child procrastination. <i>IJERPH</i>, 2022. <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9690157/" target="_blank" rel="noopener">link</a></li>
+          <li>Botkin et al. Highly involved parenting of adolescents with ADHD: a measure of "helicopter parenting". 2024. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11620715/" target="_blank" rel="noopener">link</a></li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div><b>Projeto Farol</b> · Laboratório de IA Aplicada · PPGES/Unipampa · 2026</div>
+    <div>Lucas Alves São Mateus · Última atualização: <span id="atualizado"></span></div>
+  </div>
+</footer>
+
+<script>
+/* =========================================================
+   DIÁRIO DE BORDO — para atualizar o site toda semana,
+   acrescente um item no FIM desta lista e ajuste ANDAMENTO.
+   ========================================================= */
+const ANDAMENTO = {
+  atualizado: "03/11/2026",
+  status: "Coleta rotulada em andamento",
+  gabaritoHoras: 0,      // horas de gabarito já validadas
+  gabaritoMeta: 3
+};
+
+const DIARIO = [
+  { data: "Set – 04/10", versao: "v0.1 → v0.5", titulo: "Protótipo funcionando no celular",
+    itens: ["Pipeline câmera → MediaPipe → regra por limiares → alerta (tela vermelha e voz).",
+            "Visual lúdico em roxo com o mascote Farolzinho; sequência de dias que só soma.",
+            "Envio automático dos CSV para o Drive, pergunta-surpresa e 82 testes automatizados."],
+    licao: "Funcionar no celular não garante decidir bem: faltavam dados reais." },
+  { data: "03/10 – 11/10", versao: "v0.x", titulo: "Primeiras sessões reais",
+    itens: ["Regra por ângulos fixos da cabeça em relação ao celular.",
+            "Corrigido o alerta \"piscando\" (estado decidido quadro a quadro).",
+            "Até 18/10: 39 sessões, 5,0 h de dados."],
+    licao: "Decidir por um instante gera alertas instáveis; é preciso julgar pela duração." },
+  { data: "17/10", versao: "v1.0", titulo: "Chamado só após 2 min de desatenção",
+    itens: ["Calibração de 2 min no início e limiares congelados durante a coleta.",
+            "Espera interativa e tela de posicionamento do celular."] },
+  { data: "18/10", versao: "v1.0", titulo: "A prova de Matemática (101 min)",
+    itens: ["Única sessão com verdade conhecida: ela ficou atenta o tempo todo.",
+            "O app marcou desatenta em 42% do tempo e fez 9 chamados falsos."],
+    licao: "Ângulos fixos em relação ao celular não descrevem engajamento." },
+  { data: "20/10", versao: "v1.0.1 · v1.1", titulo: "Zona de estudo adaptativa",
+    itens: ["Rosto sumido por até 5 s pausa a contagem em vez de zerar.",
+            "Zona de estudo que acompanha a pose dela; pitch como sinal fraco.",
+            "Pergunta com opções (escrevendo, lendo, pensando, outra coisa) e rotulador escondido no app."] },
+  { data: "20/10 e 25/10", versao: "v1.1", titulo: "Primeiras sessões da v1.1",
+    itens: ["3 sessões, 55 min, nenhum chamado.",
+            "5 de 5 perguntas respondidas \"lendo\", inclusive com 98% da janela fora da zona."],
+    licao: "Sem gabarito observado, não dá para saber quem errou." },
+  { data: "27/10", versao: "Farol Teste", titulo: "O dilema da semana: detectar engajamento",
+    itens: ["App de bancada que mostra os ângulos na tela e no PC, pelo cabo e depois por Wi-Fi.",
+            "Sensores do celular entram só para medir: inclinação, giroscópio, luz e proximidade."] },
+  { data: "29/10", versao: "Farol Teste", titulo: "Teste de bancada: a zona travou",
+    itens: ["Calibração antiga longe da pose real: 86% dos quadros fora e 77% do tempo \"desatenta\".",
+            "O risco conhecido da zona adaptativa apareceu ao vivo."],
+    licao: "A zona precisa recomeçar quando o celular é mexido." },
+  { data: "03/11", versao: "v1.2", titulo: "Coleta com dois observadores", atual: true,
+    itens: ["Três celulares: a sessão dela e dois rotuladores independentes (pai e mãe).",
+            "Sensores do celular gravados no CSV, sem mudar a regra.",
+            "Script de validação: cobertura, relógios, kappa e app × gabarito."] }
+];
+
+/* ---------- não precisa mexer daqui para baixo ---------- */
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+document.getElementById("linha-do-tempo").innerHTML = DIARIO.map(m => `
+  <div class="marco${m.atual ? " atual" : ""}">
+    <div class="cartao">
+      <div class="topo"><span class="data">${esc(m.data)}</span><span class="versao">${esc(m.versao)}</span><h3>${esc(m.titulo)}</h3></div>
+      <ul>${m.itens.map(i => `<li>${esc(i)}</li>`).join("")}</ul>
+      ${m.licao ? `<div class="licao"><b>Lição:</b> ${esc(m.licao)}</div>` : ""}
+    </div>
+  </div>`).join("");
+
+document.getElementById("atualizado").textContent = ANDAMENTO.atualizado;
+document.getElementById("status-atual").textContent = ANDAMENTO.status;
+const h = ANDAMENTO.gabaritoHoras, meta = ANDAMENTO.gabaritoMeta;
+const hh = Math.floor(h), mm = Math.round((h - hh) * 60);
+document.getElementById("gab-num").innerHTML = `${hh} h${mm ? " " + mm + " min" : ""} <small>/ ${meta} h</small>`;
+document.getElementById("gab-barra").style.width = Math.min(100, h / meta * 100) + "%";
+
+/* destaca o item do menu da seção visível */
+const links = [...document.querySelectorAll("nav li a")];
+const obs = new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting) links.forEach(a => a.classList.toggle("ativo", a.getAttribute("href") === "#" + e.target.id));
+}), { rootMargin: "-45% 0px -50% 0px" });
+document.querySelectorAll("section[id]").forEach(s => obs.observe(s));
+</script>
+</body>
+</html>
