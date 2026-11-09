@@ -356,29 +356,29 @@
 
     <div class="grade g3" style="margin-top:24px">
       <div class="cartao">
-        <h3>Gabarito rotulado</h3>
+        <h3>Dados rotulados</h3>
         <div class="num" id="gab-num">0 h <small>/ 3 h</small></div>
         <div class="barra"><i id="gab-barra" style="width:0%"></i></div>
-        <p class="legenda">Minutos em que os dois observadores concordam (estudando × distraída).</p>
+        <p class="legenda">≈ 148 min marcados minuto a minuto (pai 129, mãe 19). Minutos com os dois marcando juntos: 0, por isso o kappa ainda não foi calculado.</p>
       </div>
       <div class="cartao">
         <h3>Sessões gravadas</h3>
         <div class="num">42 <small>sessões</small></div>
-        <p class="legenda">39 sessões (5,0 h) até 18/10, mais 3 sessões da v1.1 (55 min). Ainda sem rótulo observado.</p>
+        <p class="legenda">Contagem até 03/11: 39 sessões (5,0 h) até 18/10, mais 3 sessões da v1.1 (55 min). As sessões rotuladas vieram depois.</p>
       </div>
       <div class="cartao">
         <h3>Versão em uso</h3>
-        <div class="num">v1.2</div>
-        <p class="legenda">Regra da v1.1, agora com dois observadores e sensores do celular gravados no CSV.</p>
+        <div class="num">v1.2.1</div>
+        <p class="legenda">Regra da v1.1, dois observadores, sensores no CSV e rotulador com 10 opções + texto livre.</p>
       </div>
     </div>
 
     <div class="grade g2" style="margin-top:28px">
       <div class="cartao destaque">
-        <h3>🔬 Como a coleta funciona (v1.2)</h3>
+        <h3>🔬 Como a coleta funciona (v1.2.1)</h3>
         <ol class="limpa">
           <li>Três celulares na mesma rede: o da criança (sessão de estudo) e os do pai e da mãe (modo observador).</li>
-          <li>A cada virada de minuto, os dois observadores marcam o que ela está fazendo, sem combinar a resposta.</li>
+          <li>A cada virada de minuto, os dois observadores marcam o que ela está fazendo, sem combinar a resposta: 10 opções fixas (4 de estudo, 6 de distração) ou texto livre.</li>
           <li>Um script calcula cobertura, sincronia dos relógios, concordância (kappa) e compara o app com o gabarito.</li>
           <li>A sessão só entra no gabarito se kappa ≥ 0,6, cada observador marcar ao menos 80% dos minutos e os relógios estiverem a até 5 s.</li>
           <li>Meta: 3 h de gabarito em 2 semanas, com 2 sessões por dia.</li>
@@ -387,7 +387,7 @@
       <div class="cartao">
         <h3>➡️ Próximos passos</h3>
         <ol class="limpa">
-          <li>Rodar a coleta com dois observadores até chegar a 3 h de gabarito.</li>
+          <li>Fechar as 3 h (faltam ≈ 32 min) com pai e mãe marcando juntos, para ter os pares do kappa.</li>
           <li>Medir v1.0 e v1.1 contra o gabarito: alarmes falsos e distrações que passaram.</li>
           <li>Testar na bancada os sinais dos sensores (inclinação do celular, "celular mexido", luz e proximidade).</li>
           <li>Recomeçar a zona de estudo quando o celular for mexido, para evitar a "zona travada".</li>
@@ -480,9 +480,9 @@
    acrescente um item no FIM desta lista e ajuste ANDAMENTO.
    ========================================================= */
 const ANDAMENTO = {
-  atualizado: "03/11/2026",
-  status: "Coleta rotulada em andamento",
-  gabaritoHoras: 0,      // horas de gabarito já validadas
+  atualizado: "09/11/2026",
+  status: "Coleta rotulada: 82% da meta",
+  gabaritoHoras: 148/60, // horas de dados rotulados (≈ 148 min)
   gabaritoMeta: 3
 };
 
@@ -525,10 +525,20 @@ const DIARIO = [
     itens: ["Calibração antiga longe da pose real: 86% dos quadros fora e 77% do tempo \"desatenta\".",
             "O risco conhecido da zona adaptativa apareceu ao vivo."],
     licao: "A zona precisa recomeçar quando o celular é mexido." },
-  { data: "03/11", versao: "v1.2", titulo: "Coleta com dois observadores", atual: true,
+  { data: "03/11", versao: "v1.2", titulo: "Coleta com dois observadores",
     itens: ["Três celulares: a sessão dela e dois rotuladores independentes (pai e mãe).",
             "Sensores do celular gravados no CSV, sem mudar a regra.",
-            "Script de validação: cobertura, relógios, kappa e app × gabarito."] }
+            "Script de validação: cobertura, relógios, kappa e app × gabarito."] },
+  { data: "06/11", versao: "v1.2.1", titulo: "Rotulador com 10 opções",
+    itens: ["Observador marca entre 10 opções fixas (lendo, escrevendo, pensando, pedindo ajuda; mundo da lua, mexendo em objeto, conversando, outra tela, sonolenta, saiu do lugar) ou escreve.",
+            "Cada marcação grava também o grupo estudando × distraída, comparável com as sessões antigas.",
+            "Só a tela do observador mudou; a detecção continua a mesma."] },
+  { data: "08/11", versao: "v1.2.1", titulo: "Primeiro dia cheio de coleta rotulada", atual: true,
+    itens: ["5 sessões e 117 min marcados; o total chegou a ≈ 148 min (82% da meta).",
+            "Apareceram distrações de verdade: mundo da lua, saiu do lugar (10 min no banheiro, com chamado do Farol), mexendo em objeto e sonolenta.",
+            "Sessão das 09:54: 23 de 24 min estudando e nenhum chamado, sem alarme falso.",
+            "Erros vistos: a zona levou ≈ 15 min para descer de 34° para 20° (até 52% do minuto \"fora\" enquanto lia); sono falso lendo de olhos baixos; \"pedindo ajuda\" sai da câmera; \"bebendo água\" passou com o rosto na câmera."],
+    licao: "Um observador já mostra onde o Farol erra; para confiar no gabarito falta a concordância dos dois." }
 ];
 
 /* ---------- não precisa mexer daqui para baixo ---------- */
