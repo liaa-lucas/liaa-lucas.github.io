@@ -174,6 +174,57 @@
 .legenda-diag .l1{background:#FFF4D6;border-color:var(--amarelo-escuro)}.legenda-diag .l2{background:var(--noite);border-color:var(--roxo)}
 .legenda-diag .l3{background:var(--roxo-claro);border-color:var(--roxo)}.legenda-diag .l4{background:#F3F1F8;border-color:#A79FC0}
 .legenda-diag .l5{background:#fff;border:2px dashed var(--vermelho)}
+/* palco da fábula */
+.palco{--cor-luz:#FFC83D;background:radial-gradient(circle at 20% 30%,#3d2a85 0,var(--noite) 72%);border-radius:var(--raio);overflow:hidden;color:#fff;margin:32px 0 20px;border:2px solid #3d2a85;border-bottom-width:5px}
+.palco svg{display:block;width:100%;height:auto}
+.palco[data-cena="3"]{--cor-luz:#FF6B6B}
+.palco[data-cena="5"]{--cor-luz:#7ED957}
+.palco .p-lampada{fill:var(--cor-luz);transition:fill .9s}
+.palco .p-brilho{fill:var(--cor-luz);opacity:.08;transition:fill .9s,opacity .9s}
+.palco[data-cena="3"] .p-brilho{opacity:.26}.palco[data-cena="5"] .p-brilho{opacity:.2}
+.palco .p-feixe{animation:varre 7s ease-in-out infinite alternate}
+.palco[data-cena="3"] .p-feixe{animation-duration:12s}
+@keyframes varre{from{transform:rotate(-5deg)}to{transform:rotate(5deg)}}
+.palco .pf{transition:opacity .9s}
+.palco .pf-v,.palco .pf-g{opacity:0}
+.palco[data-cena="3"] .pf-a{opacity:0}.palco[data-cena="3"] .pf-v{opacity:1}
+.palco[data-cena="5"] .pf-a{opacity:0}.palco[data-cena="5"] .pf-g{opacity:1}
+.palco .p-estrela{animation:brilha 3s ease-in-out infinite}
+@keyframes brilha{50%{opacity:.25}}
+.palco .p-onda{animation:onda 7s linear infinite}
+@keyframes onda{to{transform:translateX(-60px)}}
+.palco .p-cabeca{transform-origin:532px 206px;transform:rotate(12deg);transition:transform 1s ease}
+.palco[data-cena="2"] .p-cabeca,.palco[data-cena="3"] .p-cabeca{transform:rotate(-9deg)}
+.palco[data-cena="4"] .p-cabeca{transform:rotate(10deg)}
+.palco[data-cena="5"] .p-cabeca{transform:rotate(-5deg)}
+.palco .p-pupila{transition:transform .9s}
+.palco[data-cena="1"] .p-pupila,.palco[data-cena="4"] .p-pupila{transform:translate(0,2.4px)}
+.palco[data-cena="2"] .p-pupila,.palco[data-cena="3"] .p-pupila{transform:translate(2.6px,-2.6px)}
+.palco[data-cena="5"] .p-pupila{transform:translate(-2.6px,0)}
+.palco .p-boca{opacity:0;transition:opacity .5s}
+.palco .m-neutra,.palco[data-cena="2"] .m-oh{opacity:1}
+.palco[data-cena="2"] .m-neutra,.palco[data-cena="3"] .m-neutra,.palco[data-cena="4"] .m-neutra,.palco[data-cena="5"] .m-neutra{opacity:0}
+.palco[data-cena="3"] .m-oh{opacity:1}
+.palco[data-cena="4"] .m-sorriso,.palco[data-cena="5"] .m-sorriso{opacity:1}
+.palco .p-pensa,.palco .p-plano{opacity:0;transform-origin:580px 116px;transform:scale(.25);transition:opacity .7s,transform .7s}
+.palco[data-cena="2"] .p-pensa,.palco[data-cena="3"] .p-pensa,.palco[data-cena="5"] .p-plano{opacity:1;transform:scale(1)}
+.palco .p-barco{animation:balanca 3.2s ease-in-out infinite;transform-origin:633px 96px}
+@keyframes balanca{50%{transform:translate(8px,-3px) rotate(3deg)}}
+.palco .p-ptxt{font-size:13px;font-weight:900;fill:var(--roxo-texto)}
+.palco .p-ptxt2{font-size:12.5px;font-weight:800;fill:var(--roxo-escuro)}
+.palco-legenda{padding:16px 24px 6px}
+.palco-cena{color:var(--amarelo);font-weight:900;text-transform:uppercase;letter-spacing:.1em;font-size:.78rem}
+.palco-txt{font-size:1.1rem;color:#E4DAFF;margin:6px 0 0;min-height:5.2em;max-width:64ch}
+.palco-ctrl{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:0 24px 20px}
+.pc-btn{background:rgba(255,255,255,.1);color:#fff;border:2px solid #7E66D8;border-radius:12px;padding:8px 14px;font:inherit;font-weight:800;cursor:pointer}
+.pc-btn:hover{background:rgba(255,255,255,.2)}
+.pc-dots{display:flex;gap:8px;margin:0 6px}
+.pc-dot{width:14px;height:14px;border-radius:50%;border:2px solid #B9A8F0;background:transparent;padding:0;cursor:pointer}
+.pc-dot[aria-current="true"]{background:var(--amarelo);border-color:var(--amarelo)}
+.fabula-completa{margin-bottom:8px}
+.fabula-completa summary{cursor:pointer}
+.fabula-completa p{margin:.8em 0 0}
+@media (prefers-reduced-motion:reduce){.palco *{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
@@ -255,6 +306,85 @@
     </div>
 
     <p class="frase">O Farol não quer vigiar a criança. Ele quer ajudá-la a perceber sozinha que se distraiu.</p>
+
+<div class="palco" id="palco" data-cena="1">
+<svg viewBox="0 0 720 400" role="img" aria-label="Animação: um farol acende uma luz suave para uma criança que estuda, ela se distrai, percebe a luz sozinha, volta à tarefa e planeja a próxima sessão." xmlns="http://www.w3.org/2000/svg">
+<defs>
+<linearGradient id="luzA" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#FFC83D" stop-opacity=".8"/><stop offset="1" stop-color="#FFC83D" stop-opacity="0"/></linearGradient>
+<linearGradient id="luzV" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#FF6B6B" stop-opacity=".85"/><stop offset="1" stop-color="#FF4B4B" stop-opacity="0"/></linearGradient>
+<linearGradient id="luzG" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#8BE05A" stop-opacity=".8"/><stop offset="1" stop-color="#FFC83D" stop-opacity="0"/></linearGradient>
+</defs>
+<circle cx="60" cy="40" r="2" fill="#fff" class="p-estrela" style="animation-delay:0.0s"/><circle cx="140" cy="90" r="1.6" fill="#fff" class="p-estrela" style="animation-delay:0.7s"/><circle cx="260" cy="50" r="2" fill="#fff" class="p-estrela" style="animation-delay:1.4s"/><circle cx="330" cy="110" r="1.5" fill="#fff" class="p-estrela" style="animation-delay:2.1s"/><circle cx="420" cy="36" r="2" fill="#fff" class="p-estrela" style="animation-delay:2.8s"/><circle cx="520" cy="70" r="1.6" fill="#fff" class="p-estrela" style="animation-delay:0.5s"/><circle cx="660" cy="40" r="2" fill="#fff" class="p-estrela" style="animation-delay:1.2s"/><circle cx="690" cy="130" r="1.5" fill="#fff" class="p-estrela" style="animation-delay:1.9s"/><circle cx="610" cy="20" r="1.4" fill="#fff" class="p-estrela" style="animation-delay:2.6s"/><circle cx="220" cy="130" r="1.4" fill="#fff" class="p-estrela" style="animation-delay:0.3s"/>
+<g class="p-mar"><path class="p-onda" d="M-120,372 q15.0,-7 30.0,0 t30.0,0 q15.0,-7 30.0,0 t30.0,0 q15.0,-7 30.0,0 t30.0,0 q15.0,-7 30.0,0 t30.0,0 q15.0,-7 30.0,0 t30.0,0 q15.0,-7 30.0,0 t30.0,0 q15.0,-7 30.0,0 t30.0,0 q15.0,-7 30.0,0 t30.0,0 q15.0,-7 30.0,0 t30.0,0 q15.0,-7 30.0,0 t30.0,0 q15.0,-7 30.0,0 t30.0,0 q15.0,-7 30.0,0 t30.0,0 q15.0,-7 30.0,0 t30.0,0 q15.0,-7 30.0,0 t30.0,0 q15.0,-7 30.0,0 t30.0,0 L840,420 L-120,420 Z" fill="#2A1A5C"/></g>
+<g transform="translate(182,161)"><g class="p-feixe"><path class="pf pf-a" d="M0 0 L480 -90 L480 90 Z" fill="url(#luzA)"/><path class="pf pf-v" d="M0 0 L480 -90 L480 90 Z" fill="url(#luzV)"/><path class="pf pf-g" d="M0 0 L480 -90 L480 90 Z" fill="url(#luzG)"/></g></g>
+<ellipse class="p-brilho" cx="532" cy="215" rx="110" ry="130"/>
+<g transform="translate(40,70) scale(.95)">
+<path d="M40 300 Q150 270 260 300 L260 320 L40 320 Z" fill="#2A1A5C"/>
+<path d="M118 296 L182 296 L170 128 L130 128 Z" fill="#fff"/>
+<path d="M126 180 L174 180 L172.4 158 L127.6 158 Z" fill="#FF4B4B"/>
+<path d="M122.2 236 L177.8 236 L176 212 L124 212 Z" fill="#FF4B4B"/>
+<rect x="122" y="118" width="56" height="12" rx="4" fill="#6D3FD9"/>
+<rect x="132" y="80" width="36" height="38" rx="8" fill="#FFC83D"/>
+<circle class="p-lampada" cx="150" cy="99" r="9"/>
+<path d="M124 82 L150 58 L176 82 Z" fill="#8B5CF6"/>
+<circle cx="150" cy="56" r="4" fill="#8B5CF6"/>
+<rect x="142" y="262" width="16" height="34" rx="8" fill="#6D3FD9"/>
+</g>
+<g class="p-crianca">
+<rect x="500" y="204" width="64" height="92" rx="26" fill="#8B5CF6"/>
+<path d="M508 228 Q488 262 480 288" stroke="#8B5CF6" stroke-width="14" stroke-linecap="round" fill="none"/>
+<path d="M556 228 Q568 262 548 288" stroke="#8B5CF6" stroke-width="14" stroke-linecap="round" fill="none"/>
+<g class="p-cabeca">
+<circle cx="566" cy="152" r="10" fill="#3B1F7A"/>
+<circle cx="532" cy="168" r="32" fill="#E9B88C"/>
+<path d="M499 166 Q497 130 532 130 Q567 130 565 166 Q552 148 532 148 Q512 148 499 166Z" fill="#3B1F7A"/>
+<circle cx="520" cy="172" r="5.5" fill="#fff"/><circle cx="544" cy="172" r="5.5" fill="#fff"/>
+<g class="p-pupila"><circle cx="520" cy="172" r="2.8" fill="#3B1F7A"/><circle cx="544" cy="172" r="2.8" fill="#3B1F7A"/></g>
+<circle cx="511" cy="184" r="4.5" fill="#F4A58A" opacity=".55"/><circle cx="553" cy="184" r="4.5" fill="#F4A58A" opacity=".55"/>
+<path class="p-boca m-neutra" d="M525 188 L539 188" stroke="#3B1F7A" stroke-width="2.4" stroke-linecap="round" fill="none"/>
+<path class="p-boca m-oh" d="M532 184 a4 4.5 0 1 0 .01 0 Z" fill="#3B1F7A"/>
+<path class="p-boca m-sorriso" d="M521 184 Q532 197 543 184" stroke="#3B1F7A" stroke-width="2.6" stroke-linecap="round" fill="none"/>
+</g>
+</g>
+<rect x="380" y="292" width="320" height="12" rx="6" fill="#6D3FD9"/>
+<rect x="392" y="304" width="296" height="52" rx="4" fill="#4a3596"/>
+<rect x="452" y="282" width="108" height="10" rx="3" fill="#fff"/><rect x="456" y="284" width="100" height="2" fill="#C9BCF0"/>
+<g class="p-pensa">
+<circle cx="572" cy="128" r="4" fill="#fff"/><circle cx="584" cy="112" r="6.5" fill="#fff"/>
+<ellipse cx="636" cy="70" rx="76" ry="46" fill="#fff"/>
+<g class="p-barco">
+<path d="M580 92 q11 -9 22 0 t22 0 t22 0 t22 0 t22 0" stroke="#8B5CF6" stroke-width="3" fill="none" stroke-linecap="round"/>
+<path d="M606 84 L660 84 L652 96 L614 96 Z" fill="#FFC83D" stroke="#E0A500" stroke-width="2"/>
+<line x1="633" y1="84" x2="633" y2="42" stroke="#6D3FD9" stroke-width="3"/>
+<path d="M635 46 L635 82 L664 82 Z" fill="#EDE7FE" stroke="#8B5CF6" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M633 42 L645 46 L633 50 Z" fill="#FF4B4B"/>
+</g>
+</g>
+<g class="p-plano">
+<circle cx="572" cy="128" r="4" fill="#fff"/><circle cx="584" cy="112" r="6.5" fill="#fff"/>
+<ellipse cx="636" cy="66" rx="82" ry="48" fill="#fff"/>
+<text x="636" y="52" text-anchor="middle" class="p-ptxt">Plano de Nina</text>
+<text x="636" y="74" text-anchor="middle" class="p-ptxt2">1. banheiro antes</text>
+<text x="636" y="94" text-anchor="middle" class="p-ptxt2">2. começar a tarefa ✓</text>
+</g>
+</svg>
+<div class="palco-legenda">
+<div class="palco-cena" id="palco-cena">Cena 1 · Hora de estudar</div>
+<p class="palco-txt" id="palco-txt">Nina senta para fazer a tarefa. No canto da mesa, o Farol acende uma luz bem baixinha, só para fazer companhia.</p>
+</div>
+<div class="palco-ctrl">
+<button class="pc-btn" id="pc-ant" type="button" aria-label="Cena anterior">‹</button>
+<span class="pc-dots"><button class="pc-dot" type="button" data-i="0" aria-label="Cena 1"></button><button class="pc-dot" type="button" data-i="1" aria-label="Cena 2"></button><button class="pc-dot" type="button" data-i="2" aria-label="Cena 3"></button><button class="pc-dot" type="button" data-i="3" aria-label="Cena 4"></button><button class="pc-dot" type="button" data-i="4" aria-label="Cena 5"></button></span>
+<button class="pc-btn" id="pc-prox" type="button" aria-label="Próxima cena">›</button>
+<button class="pc-btn" id="pc-play" type="button">Pausar</button>
+</div>
+</div>
+<p class="frase" style="margin-top:8px">O Farol não leva o barco. Ele ajuda quem navega a achar o caminho de volta.</p>
+<details class="cartao fabula-completa">
+<summary><b>Ler a fábula inteira</b> · O Farol e a Nina</summary>
+<p><b>Hora de estudar.</b> Nina senta para fazer a tarefa. No canto da mesa, o Farol acende uma luz bem baixinha, só para fazer companhia.</p><p><b>O barquinho dos pensamentos.</b> De repente, a cabeça de Nina vira um barquinho e sai navegando pelo mar dos pensamentos. Longe, bem longe do caderno.</p><p><b>Uma luz que não grita.</b> O Farol não briga e não faz barulho. Devagar, a luz fica avermelhada, como um pôr do sol, e parece perguntar: Nina, onde você está?</p><p><b>Ela mesma volta.</b> Nina percebe a luz e sorri: Opa, fui longe! Sozinha, ela puxa o barquinho de volta e retoma a tarefa.</p><p><b>O plano de Nina.</b> No fim da tarefa, Nina conta ao Farol o que a tirou do caminho: queria ir ao banheiro. Da próxima vez, vai antes de começar. O Farol acende verde e dourado, porque quem guia o barco é ela.</p>
+<p class="legenda">Nina é uma personagem inventada para contar a ideia do projeto.</p>
+</details>
 
     <div class="grade g2">
       <div class="cartao destaque">
@@ -385,6 +515,15 @@
     <h2>Diário de bordo</h2>
     <p class="intro">Cada versão nasceu de um problema encontrado nos dados da anterior. A linha do tempo abaixo é atualizada ao longo do semestre.</p>
     <div class="tempo" id="linha-do-tempo"></div>
+<h3 style="margin-top:44px" id="v13">Próxima versão: v1.3 <span class="pilula p-amarelo" style="font-size:.8rem;vertical-align:middle">em construção</span></h3>
+<p class="intro">Ideias em construção: elas ainda podem mudar depois da análise dos dados rotulados. Nada muda no app antes de terminar a coleta.</p>
+<div class="grade g2" style="margin-top:20px">
+<div class="cartao"><div class="ic">☁️</div><h3>Painel na nuvem</h3><p>Acompanhar a sessão ao vivo, com login por família, e avisar os pais no celular. Durante a sessão, a criança continua sem ser vigiada.</p></div>
+<div class="cartao"><div class="ic">🎯</div><h3>Detecção mais certeira</h3><p>Corrigir os erros vistos nos dados rotulados: o "mundo da lua" com o rosto na zona, a zona que se destrava sozinha, o aviso de pouca luz e uma espera menor antes do primeiro chamado.</p></div>
+<div class="cartao"><div class="ic">🧭</div><h3>Autorregulação</h3><p>O ciclo planejar, monitorar, refletir e planejar de novo: a criança registra o que a tirou da tarefa e combina consigo mesma a próxima sessão. Os apoios saem aos poucos, até virar hábito.</p></div>
+<div class="cartao destaque"><div class="ic">🎮</div><h3>Jogo a partir do livro</h3><p>Ideia nova: usar o conteúdo do livro didático da tarefa do dia para criar um jogo curto, que motive a criança a continuar. Ainda é uma ideia, sem desenho pronto.</p></div>
+</div>
+<p class="legenda" style="margin-top:14px">Cuidados da v1.3: o app continua previsível, com poucas opções, e nunca pune.</p>
   </div>
 </section>
 
@@ -685,6 +824,37 @@ const obs = new IntersectionObserver(es => es.forEach(e => {
   if (e.isIntersecting) links.forEach(a => a.classList.toggle("ativo", a.getAttribute("href") === "#" + e.target.id));
 }), { rootMargin: "-45% 0px -50% 0px" });
 document.querySelectorAll("section[id]").forEach(s => obs.observe(s));
+/* palco da fábula: troca de cenas */
+(function () {
+  var p = document.getElementById("palco"); if (!p) return;
+  var CENAS = [["Cena 1 · Hora de estudar", "Nina senta para fazer a tarefa. No canto da mesa, o Farol acende uma luz bem baixinha, só para fazer companhia."], ["Cena 2 · O barquinho dos pensamentos", "De repente, a cabeça de Nina vira um barquinho e sai navegando pelo mar dos pensamentos. Longe, bem longe do caderno."], ["Cena 3 · Uma luz que não grita", "O Farol não briga e não faz barulho. Devagar, a luz fica avermelhada, como um pôr do sol, e parece perguntar: Nina, onde você está?"], ["Cena 4 · Ela mesma volta", "Nina percebe a luz e sorri: Opa, fui longe! Sozinha, ela puxa o barquinho de volta e retoma a tarefa."], ["Cena 5 · O plano de Nina", "No fim da tarefa, Nina conta ao Farol o que a tirou do caminho: queria ir ao banheiro. Da próxima vez, vai antes de começar. O Farol acende verde e dourado, porque quem guia o barco é ela."]];
+  var cena = document.getElementById("palco-cena"), txt = document.getElementById("palco-txt");
+  var dots = p.querySelectorAll(".pc-dot"), btn = document.getElementById("pc-play");
+  var i = 0, timer = null, visivel = false, pausadoPeloUsuario = false;
+  var reduz = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function ir(n) {
+    i = (n + CENAS.length) % CENAS.length;
+    p.setAttribute("data-cena", String(i + 1));
+    cena.textContent = CENAS[i][0]; txt.textContent = CENAS[i][1];
+    dots.forEach(function (d, k) { d.setAttribute("aria-current", k === i ? "true" : "false"); });
+  }
+  function parar() { clearInterval(timer); timer = null; btn.textContent = "Reproduzir"; }
+  function tocar() { clearInterval(timer); timer = setInterval(function () { ir(i + 1); }, 7500); btn.textContent = "Pausar"; }
+  document.getElementById("pc-ant").addEventListener("click", function () { ir(i - 1); });
+  document.getElementById("pc-prox").addEventListener("click", function () { ir(i + 1); });
+  dots.forEach(function (d) { d.addEventListener("click", function () { ir(Number(d.getAttribute("data-i"))); }); });
+  btn.addEventListener("click", function () {
+    if (timer) { pausadoPeloUsuario = true; parar(); } else { pausadoPeloUsuario = false; tocar(); }
+  });
+  if ("IntersectionObserver" in window) {
+    new IntersectionObserver(function (es) {
+      visivel = es[0].isIntersecting;
+      if (visivel && !reduz && !pausadoPeloUsuario) tocar(); else if (!visivel) parar();
+    }, { threshold: 0.35 }).observe(p);
+  } else if (!reduz) { tocar(); }
+  if (reduz) parar();
+  ir(0);
+})();
 </script>
 </body>
 </html>
