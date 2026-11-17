@@ -174,6 +174,11 @@
 .legenda-diag .l1{background:#FFF4D6;border-color:var(--amarelo-escuro)}.legenda-diag .l2{background:var(--noite);border-color:var(--roxo)}
 .legenda-diag .l3{background:var(--roxo-claro);border-color:var(--roxo)}.legenda-diag .l4{background:#F3F1F8;border-color:#A79FC0}
 .legenda-diag .l5{background:#fff;border:2px dashed var(--vermelho)}
+/* vídeos */
+.video{background:var(--noite);border-radius:var(--raio);overflow:hidden;border:2px solid #3d2a85;border-bottom-width:5px;margin:28px 0 14px}
+.video video{display:block;width:100%;height:auto;aspect-ratio:16/9;background:#000}
+.fabula-completa p{margin:.7em 0;line-height:1.65}
+.fabula-completa .fala{font-style:italic;color:var(--roxo-texto);font-weight:700}
 /* palco da fábula */
 .palco{--cor-luz:#FFC83D;background:radial-gradient(circle at 20% 30%,#3d2a85 0,var(--noite) 72%);border-radius:var(--raio);overflow:hidden;color:#fff;margin:32px 0 20px;border:2px solid #3d2a85;border-bottom-width:5px}
 .palco svg{display:block;width:100%;height:auto}
@@ -257,6 +262,7 @@
       <div class="botoes">
         <a class="btn btn-amarelo" href="#proposta">Como funciona</a>
         <a class="btn btn-contorno" href="#andamento">Onde estamos</a>
+        <a class="btn btn-contorno" href="#video">▶ Assistir ao vídeo</a>
       </div>
       <p class="meta">Lucas Alves São Mateus · Prof. Diego · Alegrete, RS</p>
     </div>
@@ -307,83 +313,26 @@
 
     <p class="frase">O Farol não quer vigiar a criança. Ele quer ajudá-la a perceber sozinha que se distraiu.</p>
 
-<div class="palco" id="palco" data-cena="1">
-<svg viewBox="0 0 720 400" role="img" aria-label="Animação: um farol acende uma luz suave para uma criança que estuda, ela se distrai, percebe a luz sozinha, volta à tarefa e planeja a próxima sessão." xmlns="http://www.w3.org/2000/svg">
-<defs>
-<linearGradient id="luzA" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#FFC83D" stop-opacity=".8"/><stop offset="1" stop-color="#FFC83D" stop-opacity="0"/></linearGradient>
-<linearGradient id="luzV" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#FF6B6B" stop-opacity=".85"/><stop offset="1" stop-color="#FF4B4B" stop-opacity="0"/></linearGradient>
-<linearGradient id="luzG" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#8BE05A" stop-opacity=".8"/><stop offset="1" stop-color="#FFC83D" stop-opacity="0"/></linearGradient>
-</defs>
-<circle cx="60" cy="40" r="2" fill="#fff" class="p-estrela" style="animation-delay:0.0s"/><circle cx="140" cy="90" r="1.6" fill="#fff" class="p-estrela" style="animation-delay:0.7s"/><circle cx="260" cy="50" r="2" fill="#fff" class="p-estrela" style="animation-delay:1.4s"/><circle cx="330" cy="110" r="1.5" fill="#fff" class="p-estrela" style="animation-delay:2.1s"/><circle cx="420" cy="36" r="2" fill="#fff" class="p-estrela" style="animation-delay:2.8s"/><circle cx="520" cy="70" r="1.6" fill="#fff" class="p-estrela" style="animation-delay:0.5s"/><circle cx="660" cy="40" r="2" fill="#fff" class="p-estrela" style="animation-delay:1.2s"/><circle cx="690" cy="130" r="1.5" fill="#fff" class="p-estrela" style="animation-delay:1.9s"/><circle cx="610" cy="20" r="1.4" fill="#fff" class="p-estrela" style="animation-delay:2.6s"/><circle cx="220" cy="130" r="1.4" fill="#fff" class="p-estrela" style="animation-delay:0.3s"/>
-<g class="p-mar"><path class="p-onda" d="M-120,372 q15.0,-7 30.0,0 t30.0,0 q15.0,-7 30.0,0 t30.0,0 q15.0,-7 30.0,0 t30.0,0 q15.0,-7 30.0,0 t30.0,0 q15.0,-7 30.0,0 t30.0,0 q15.0,-7 30.0,0 t30.0,0 q15.0,-7 30.0,0 t30.0,0 q15.0,-7 30.0,0 t30.0,0 q15.0,-7 30.0,0 t30.0,0 q15.0,-7 30.0,0 t30.0,0 q15.0,-7 30.0,0 t30.0,0 q15.0,-7 30.0,0 t30.0,0 q15.0,-7 30.0,0 t30.0,0 q15.0,-7 30.0,0 t30.0,0 q15.0,-7 30.0,0 t30.0,0 L840,420 L-120,420 Z" fill="#2A1A5C"/></g>
-<g transform="translate(182,161)"><g class="p-feixe"><path class="pf pf-a" d="M0 0 L480 -90 L480 90 Z" fill="url(#luzA)"/><path class="pf pf-v" d="M0 0 L480 -90 L480 90 Z" fill="url(#luzV)"/><path class="pf pf-g" d="M0 0 L480 -90 L480 90 Z" fill="url(#luzG)"/></g></g>
-<ellipse class="p-brilho" cx="532" cy="215" rx="110" ry="130"/>
-<g transform="translate(40,70) scale(.95)">
-<path d="M40 300 Q150 270 260 300 L260 320 L40 320 Z" fill="#2A1A5C"/>
-<path d="M118 296 L182 296 L170 128 L130 128 Z" fill="#fff"/>
-<path d="M126 180 L174 180 L172.4 158 L127.6 158 Z" fill="#FF4B4B"/>
-<path d="M122.2 236 L177.8 236 L176 212 L124 212 Z" fill="#FF4B4B"/>
-<rect x="122" y="118" width="56" height="12" rx="4" fill="#6D3FD9"/>
-<rect x="132" y="80" width="36" height="38" rx="8" fill="#FFC83D"/>
-<circle class="p-lampada" cx="150" cy="99" r="9"/>
-<path d="M124 82 L150 58 L176 82 Z" fill="#8B5CF6"/>
-<circle cx="150" cy="56" r="4" fill="#8B5CF6"/>
-<rect x="142" y="262" width="16" height="34" rx="8" fill="#6D3FD9"/>
-</g>
-<g class="p-crianca">
-<rect x="500" y="204" width="64" height="92" rx="26" fill="#8B5CF6"/>
-<path d="M508 228 Q488 262 480 288" stroke="#8B5CF6" stroke-width="14" stroke-linecap="round" fill="none"/>
-<path d="M556 228 Q568 262 548 288" stroke="#8B5CF6" stroke-width="14" stroke-linecap="round" fill="none"/>
-<g class="p-cabeca">
-<circle cx="566" cy="152" r="10" fill="#3B1F7A"/>
-<circle cx="532" cy="168" r="32" fill="#E9B88C"/>
-<path d="M499 166 Q497 130 532 130 Q567 130 565 166 Q552 148 532 148 Q512 148 499 166Z" fill="#3B1F7A"/>
-<circle cx="520" cy="172" r="5.5" fill="#fff"/><circle cx="544" cy="172" r="5.5" fill="#fff"/>
-<g class="p-pupila"><circle cx="520" cy="172" r="2.8" fill="#3B1F7A"/><circle cx="544" cy="172" r="2.8" fill="#3B1F7A"/></g>
-<circle cx="511" cy="184" r="4.5" fill="#F4A58A" opacity=".55"/><circle cx="553" cy="184" r="4.5" fill="#F4A58A" opacity=".55"/>
-<path class="p-boca m-neutra" d="M525 188 L539 188" stroke="#3B1F7A" stroke-width="2.4" stroke-linecap="round" fill="none"/>
-<path class="p-boca m-oh" d="M532 184 a4 4.5 0 1 0 .01 0 Z" fill="#3B1F7A"/>
-<path class="p-boca m-sorriso" d="M521 184 Q532 197 543 184" stroke="#3B1F7A" stroke-width="2.6" stroke-linecap="round" fill="none"/>
-</g>
-</g>
-<rect x="380" y="292" width="320" height="12" rx="6" fill="#6D3FD9"/>
-<rect x="392" y="304" width="296" height="52" rx="4" fill="#4a3596"/>
-<rect x="452" y="282" width="108" height="10" rx="3" fill="#fff"/><rect x="456" y="284" width="100" height="2" fill="#C9BCF0"/>
-<g class="p-pensa">
-<circle cx="572" cy="128" r="4" fill="#fff"/><circle cx="584" cy="112" r="6.5" fill="#fff"/>
-<ellipse cx="636" cy="70" rx="76" ry="46" fill="#fff"/>
-<g class="p-barco">
-<path d="M580 92 q11 -9 22 0 t22 0 t22 0 t22 0 t22 0" stroke="#8B5CF6" stroke-width="3" fill="none" stroke-linecap="round"/>
-<path d="M606 84 L660 84 L652 96 L614 96 Z" fill="#FFC83D" stroke="#E0A500" stroke-width="2"/>
-<line x1="633" y1="84" x2="633" y2="42" stroke="#6D3FD9" stroke-width="3"/>
-<path d="M635 46 L635 82 L664 82 Z" fill="#EDE7FE" stroke="#8B5CF6" stroke-width="2.5" stroke-linejoin="round"/>
-<path d="M633 42 L645 46 L633 50 Z" fill="#FF4B4B"/>
-</g>
-</g>
-<g class="p-plano">
-<circle cx="572" cy="128" r="4" fill="#fff"/><circle cx="584" cy="112" r="6.5" fill="#fff"/>
-<ellipse cx="636" cy="66" rx="82" ry="48" fill="#fff"/>
-<text x="636" y="52" text-anchor="middle" class="p-ptxt">Plano de Nina</text>
-<text x="636" y="74" text-anchor="middle" class="p-ptxt2">1. banheiro antes</text>
-<text x="636" y="94" text-anchor="middle" class="p-ptxt2">2. começar a tarefa ✓</text>
-</g>
-</svg>
-<div class="palco-legenda">
-<div class="palco-cena" id="palco-cena">Cena 1 · Hora de estudar</div>
-<p class="palco-txt" id="palco-txt">Nina senta para fazer a tarefa. No canto da mesa, o Farol acende uma luz bem baixinha, só para fazer companhia.</p>
-</div>
-<div class="palco-ctrl">
-<button class="pc-btn" id="pc-ant" type="button" aria-label="Cena anterior">‹</button>
-<span class="pc-dots"><button class="pc-dot" type="button" data-i="0" aria-label="Cena 1"></button><button class="pc-dot" type="button" data-i="1" aria-label="Cena 2"></button><button class="pc-dot" type="button" data-i="2" aria-label="Cena 3"></button><button class="pc-dot" type="button" data-i="3" aria-label="Cena 4"></button><button class="pc-dot" type="button" data-i="4" aria-label="Cena 5"></button></span>
-<button class="pc-btn" id="pc-prox" type="button" aria-label="Próxima cena">›</button>
-<button class="pc-btn" id="pc-play" type="button">Pausar</button>
-</div>
-</div>
+<h3 id="video" style="margin-top:36px">Vídeo · O Farol do Pai e o projeto em 3 minutos</h3>
+<p class="intro" style="margin-top:6px">Uma fábula escrita pelo autor abre o vídeo; depois vem o resumo do projeto, do problema à próxima versão.</p>
+<div class="video"><video controls preload="metadata" playsinline poster="videos/capa-fabula.jpg" src="videos/farol-fabula-e-projeto.mp4">Seu navegador não toca vídeo. <a href="videos/farol-fabula-e-projeto.mp4">Baixe o vídeo</a>.</video></div>
+<p class="legenda">Animação, legendas e trilha instrumental produzidas com apoio de IA (Claude, da Anthropic), a partir da fábula do autor. Duração: 2 min 54 s. Há também uma <a href="#retrospectiva">retrospectiva de 2 minutos</a>.</p>
 <p class="frase" style="margin-top:8px">O Farol não leva o barco. Ele ajuda quem navega a achar o caminho de volta.</p>
-<details class="cartao fabula-completa">
-<summary><b>Ler a fábula inteira</b> · O Farol e a Nina</summary>
-<p><b>Hora de estudar.</b> Nina senta para fazer a tarefa. No canto da mesa, o Farol acende uma luz bem baixinha, só para fazer companhia.</p><p><b>O barquinho dos pensamentos.</b> De repente, a cabeça de Nina vira um barquinho e sai navegando pelo mar dos pensamentos. Longe, bem longe do caderno.</p><p><b>Uma luz que não grita.</b> O Farol não briga e não faz barulho. Devagar, a luz fica avermelhada, como um pôr do sol, e parece perguntar: Nina, onde você está?</p><p><b>Ela mesma volta.</b> Nina percebe a luz e sorri: Opa, fui longe! Sozinha, ela puxa o barquinho de volta e retoma a tarefa.</p><p><b>O plano de Nina.</b> No fim da tarefa, Nina conta ao Farol o que a tirou do caminho: queria ir ao banheiro. Da próxima vez, vai antes de começar. O Farol acende verde e dourado, porque quem guia o barco é ela.</p>
-<p class="legenda">Nina é uma personagem inventada para contar a ideia do projeto.</p>
+<details class="cartao fabula-completa" open>
+<summary><b>Ler a fábula inteira</b> · O Farol do Pai</summary>
+<p>Era uma vez uma pirata que adorava escrever histórias sobre os sete mares. Todos os dias, ela se sentava na proa do barco e escrevia belas histórias. O pai ficava orgulhoso de tantas histórias que a criança escrevia.</p>
+<p>Com o passar do tempo, uma escuridão passou a impedir que a criança escrevesse ao anoitecer, a melhor hora para imaginar dragões, peixes voadores e até o animal que está no livro de Jó: o leviatã. As histórias agora só ficavam na mente da criança, e ninguém mais podia ler suas belas histórias.</p>
+<p>Um dia, o pai, ao ver a tristeza da filha, partiu e navegou por um mar desconhecido, a dias de distância dela. A menina ficou pensando que o pai não se importava mais com ela, pois ele estava ausente havia vários dias.</p>
+<p>Mas, numa bela noite, quando a criança estava na proa do navio, em meio a uma escuridão terrível, uma luz ao longe começou a iluminar o lugar onde ela estava. Ela pôde ver o lápis, o papel e duas palavras: "Era uma vez...". Olhou mais uma vez para a luz e viu o pai, de longe, com um sorriso no rosto, dizendo com toda a sua força:</p>
+<p class="fala">— Suas maravilhosas ideias podem ir para o papel, minha artista, minha bela e maravilhosa rainha!</p>
+<p>Depois daquele dia, o farol sempre estava lá para iluminá-la.</p>
+<p>Mas o pai não disse que aquela luz era mágica: onde ela chegava, fazia nascer nas pessoas uma semente de luz. A cada dia que passava, o pai olhava para a filha e via a luz dentro dela crescer, crescer, e o barco, com o tempo, foi se afastando da terra e ganhando o oceano aberto. O pai, orgulhoso e feliz, via que agora eram duas as luzes que brilhavam no barco: a dele e a da sua eterna princesa.</p>
+<p>O tempo passou, e o barco do pai ficou pequeno para as ideias da filha. Os pensamentos dela já não cabiam mais ali. Nesse momento, o pai soube que a história iria se repetir, e que agora era a vez dele: preparou um novo barco para a filha. A luz estava tão forte que ela seria capaz de construir novos faróis para quem precisasse.</p>
+<p>Pois essa luz pode se multiplicar como uma erva daninha, passando de geração em geração, sempre que houver alguém disposto a amar e a se sacrificar pelo outro.</p>
+<p class="fala">— Boa sorte, minha eterna princesa — disse o pai, quando o barco da filha ficou pronto para seguir seu rumo.</p>
+<p>A filha olhou para o passado e se lembrou dos dias em que o pai esteve ausente, construindo o farol, dos dias em que a luz do farol iluminava o seu caderno e do dia em que percebeu que havia um farol dentro dela.</p>
+<p>Os dois não disseram nada. Simplesmente se abraçaram, e a garotinha, agora já mulher, seguiu seu rumo com uma luz impossível de apagar. Por onde ia, ela tinha o poder de plantar a semente da luz. Um simples toque gerava luz.</p>
+<p class="legenda">Fábula de Lucas Alves São Mateus.</p>
 </details>
 
     <div class="grade g2">
@@ -539,7 +488,7 @@
         <h3>Dados rotulados</h3>
         <div class="num" id="gab-num">0 h <small>/ 3 h</small></div>
         <div class="barra"><i id="gab-barra" style="width:0%"></i></div>
-        <p class="legenda">≈ 148 min marcados minuto a minuto (pai 129, mãe 19). Minutos com os dois marcando juntos: 0, por isso o kappa ainda não foi calculado.</p>
+        <p class="legenda">Gabarito do pai, marcado minuto a minuto: ≈ 134 min em 9 sessões, até 09/11 (153 min no total; os 19 min da mãe ficam fora, porque ela deixou a coleta). Com um só observador, não há kappa entre avaliadores: limitação declarada.</p>
       </div>
       <div class="cartao">
         <h3>Sessões gravadas</h3>
@@ -548,8 +497,8 @@
       </div>
       <div class="cartao">
         <h3>Versão em uso</h3>
-        <div class="num">v1.2.1</div>
-        <p class="legenda">Regra da v1.1, dois observadores, sensores no CSV e rotulador com 10 opções + texto livre.</p>
+        <div class="num">v1.2.1 <small>· v1.2.2 em teste</small></div>
+        <p class="legenda">A coleta segue na v1.2.1 (regra da v1.1, sensores no CSV, rotulador com 10 opções + texto livre). A v1.2.2, de 14/11, corrige os erros da revisão e ainda vai ser testada no celular.</p>
       </div>
     </div>
 
@@ -557,24 +506,29 @@
       <div class="cartao destaque">
         <h3>🔬 Como a coleta funciona (v1.2.1)</h3>
         <ol class="limpa">
-          <li>Três celulares na mesma rede: o da criança (sessão de estudo) e os do pai e da mãe (modo observador).</li>
-          <li>A cada virada de minuto, os dois observadores marcam o que ela está fazendo, sem combinar a resposta: 10 opções fixas (4 de estudo, 6 de distração) ou texto livre.</li>
-          <li>Um script calcula cobertura, sincronia dos relógios, concordância (kappa) e compara o app com o gabarito.</li>
-          <li>A sessão só entra no gabarito se kappa ≥ 0,6, cada observador marcar ao menos 80% dos minutos e os relógios estiverem a até 5 s.</li>
+          <li>Dois celulares na mesma rede: o da criança (sessão de estudo) e o do pai (modo observador).</li>
+          <li>A cada virada de minuto, o observador marca o que ela está fazendo: 10 opções fixas (4 de estudo, 6 de distração) ou texto livre.</li>
+          <li>Um script calcula a cobertura e a sincronia dos relógios e compara o app com o gabarito (precisão, revocação e kappa app × observador).</li>
+          <li>A sessão só entra no gabarito se o observador marcar ao menos 80% dos minutos e os relógios estiverem a até 5 s.</li>
           <li>Meta: 3 h de gabarito em 2 semanas, com 2 sessões por dia.</li>
         </ol>
       </div>
       <div class="cartao">
         <h3>➡️ Próximos passos</h3>
         <ol class="limpa">
-          <li>Fechar as 3 h (faltam ≈ 32 min) com pai e mãe marcando juntos, para ter os pares do kappa.</li>
-          <li>Medir v1.0 e v1.1 contra o gabarito: alarmes falsos e distrações que passaram.</li>
-          <li>Testar na bancada os sinais dos sensores (inclinação do celular, "celular mexido", luz e proximidade).</li>
-          <li>Recomeçar a zona de estudo quando o celular for mexido, para evitar a "zona travada".</li>
+          <li>Fechar as 3 h de gabarito do pai (faltam ≈ 46 min).</li>
+          <li>Testar no celular a v1.2.2: tela ligada para ver o que o app detecta e presença pelo corpo quando o rosto vira.</li>
+          <li>Refazer a análise por episódio (2 min seguidos), como o próprio Farol decide, e não só segundo a segundo.</li>
+          <li>Fechar a lista da v1.3: espera de 60 s, sinal para o "mundo da lua" com o rosto na zona, aviso de pouca luz.</li>
           <li>Só então testar sinais novos (olhar, mão no caderno) e um modelo treinado no lugar da regra, separando treino e teste por sessão.</li>
         </ol>
       </div>
     </div>
+
+    <h3 style="margin-top:44px" id="retrospectiva">Retrospectiva em vídeo (2 min)</h3>
+    <p class="intro" style="margin-top:6px">O que já foi feito, do protótipo à v1.2.2: o problema, a prova de 101 minutos, a zona adaptativa, o gabarito observado, os resultados e a v1.3.</p>
+    <div class="video"><video controls preload="metadata" playsinline poster="videos/capa-retrospectiva.jpg" src="videos/farol-retrospectiva.mp4">Seu navegador não toca vídeo. <a href="videos/farol-retrospectiva.mp4">Baixe o vídeo</a>.</video></div>
+    <p class="legenda">Produzido com apoio de IA (Claude, da Anthropic): roteiro, animação e trilha. Link direto: <a href="videos/farol-retrospectiva.mp4">liaa-lucas.github.io/videos/farol-retrospectiva.mp4</a></p>
 
     <div class="cartao" style="margin-top:28px">
       <h3>📦 Código e versões</h3>
@@ -730,9 +684,9 @@
    acrescente um item no FIM desta lista e ajuste ANDAMENTO.
    ========================================================= */
 const ANDAMENTO = {
-  atualizado: "09/11/2026",
-  status: "Coleta rotulada: 82% da meta",
-  gabaritoHoras: 148/60, // horas de dados rotulados (≈ 148 min)
+  atualizado: "17/11/2026",
+  status: "Coleta rotulada: 74% da meta · v1.2.2 em teste",
+  gabaritoHoras: 134/60, // horas de gabarito do pai (≈ 134 min)
   gabaritoMeta: 3
 };
 
@@ -783,12 +737,23 @@ const DIARIO = [
     itens: ["Observador marca entre 10 opções fixas (lendo, escrevendo, pensando, pedindo ajuda; mundo da lua, mexendo em objeto, conversando, outra tela, sonolenta, saiu do lugar) ou escreve.",
             "Cada marcação grava também o grupo estudando × distraída, comparável com as sessões antigas.",
             "Só a tela do observador mudou; a detecção continua a mesma."] },
-  { data: "08/11", versao: "v1.2.1", titulo: "Primeiro dia cheio de coleta rotulada", atual: true,
+  { data: "08/11", versao: "v1.2.1", titulo: "Primeiro dia cheio de coleta rotulada",
     itens: ["5 sessões e 117 min marcados; o total chegou a ≈ 148 min (82% da meta).",
             "Apareceram distrações de verdade: mundo da lua, saiu do lugar (10 min no banheiro, com chamado do Farol), mexendo em objeto e sonolenta.",
             "Sessão das 09:54: 23 de 24 min estudando e nenhum chamado, sem alarme falso.",
             "Erros vistos: a zona levou ≈ 15 min para descer de 34° para 20° (até 52% do minuto \"fora\" enquanto lia); sono falso lendo de olhos baixos; \"pedindo ajuda\" sai da câmera; \"bebendo água\" passou com o rosto na câmera."],
-    licao: "Um observador já mostra onde o Farol erra; para confiar no gabarito falta a concordância dos dois." }
+    licao: "Um observador já mostra onde o Farol erra." },
+  { data: "09/11", versao: "análise", titulo: "O que os rótulos mostraram",
+    itens: ["153 min rotulados em 9 sessões; a mãe deixou a coleta e o gabarito passa a ser só do pai.",
+            "Farol × pai: precisão 83%, revocação 47%, kappa 0,52. Erra mais por deixar passar do que por chamar à toa.",
+            "Replay: a zona adaptativa dá menos falsos alarmes que a fixa (4 × 7); mesmo com espera menor, o gargalo é a detecção, não o tempo.",
+            "Limitação: ela age como se estivesse sendo observada o tempo todo."],
+    licao: "A zona adaptativa ajuda; falta enxergar o “mundo da lua” com o rosto na zona." },
+  { data: "14/11", versao: "v1.2.2", titulo: "Revisão do código e versão de teste", atual: true,
+    itens: ["Revisão completa do código: erros graves, médios e leves, cada um ligado a um requisito.",
+            "Rosto virado não é ausência: ombros e orelhas (MediaPipe Pose) mostram que ela continua no lugar.",
+            "Tela ligada na versão de teste, para ver o que o app detecta; 233 testes passando e requisitos ligados ao arquivo e à linha do código.",
+            "APK de teste gerado; falta testar no celular."] }
 ];
 
 /* ---------- não precisa mexer daqui para baixo ---------- */
@@ -824,37 +789,6 @@ const obs = new IntersectionObserver(es => es.forEach(e => {
   if (e.isIntersecting) links.forEach(a => a.classList.toggle("ativo", a.getAttribute("href") === "#" + e.target.id));
 }), { rootMargin: "-45% 0px -50% 0px" });
 document.querySelectorAll("section[id]").forEach(s => obs.observe(s));
-/* palco da fábula: troca de cenas */
-(function () {
-  var p = document.getElementById("palco"); if (!p) return;
-  var CENAS = [["Cena 1 · Hora de estudar", "Nina senta para fazer a tarefa. No canto da mesa, o Farol acende uma luz bem baixinha, só para fazer companhia."], ["Cena 2 · O barquinho dos pensamentos", "De repente, a cabeça de Nina vira um barquinho e sai navegando pelo mar dos pensamentos. Longe, bem longe do caderno."], ["Cena 3 · Uma luz que não grita", "O Farol não briga e não faz barulho. Devagar, a luz fica avermelhada, como um pôr do sol, e parece perguntar: Nina, onde você está?"], ["Cena 4 · Ela mesma volta", "Nina percebe a luz e sorri: Opa, fui longe! Sozinha, ela puxa o barquinho de volta e retoma a tarefa."], ["Cena 5 · O plano de Nina", "No fim da tarefa, Nina conta ao Farol o que a tirou do caminho: queria ir ao banheiro. Da próxima vez, vai antes de começar. O Farol acende verde e dourado, porque quem guia o barco é ela."]];
-  var cena = document.getElementById("palco-cena"), txt = document.getElementById("palco-txt");
-  var dots = p.querySelectorAll(".pc-dot"), btn = document.getElementById("pc-play");
-  var i = 0, timer = null, visivel = false, pausadoPeloUsuario = false;
-  var reduz = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
-  function ir(n) {
-    i = (n + CENAS.length) % CENAS.length;
-    p.setAttribute("data-cena", String(i + 1));
-    cena.textContent = CENAS[i][0]; txt.textContent = CENAS[i][1];
-    dots.forEach(function (d, k) { d.setAttribute("aria-current", k === i ? "true" : "false"); });
-  }
-  function parar() { clearInterval(timer); timer = null; btn.textContent = "Reproduzir"; }
-  function tocar() { clearInterval(timer); timer = setInterval(function () { ir(i + 1); }, 7500); btn.textContent = "Pausar"; }
-  document.getElementById("pc-ant").addEventListener("click", function () { ir(i - 1); });
-  document.getElementById("pc-prox").addEventListener("click", function () { ir(i + 1); });
-  dots.forEach(function (d) { d.addEventListener("click", function () { ir(Number(d.getAttribute("data-i"))); }); });
-  btn.addEventListener("click", function () {
-    if (timer) { pausadoPeloUsuario = true; parar(); } else { pausadoPeloUsuario = false; tocar(); }
-  });
-  if ("IntersectionObserver" in window) {
-    new IntersectionObserver(function (es) {
-      visivel = es[0].isIntersecting;
-      if (visivel && !reduz && !pausadoPeloUsuario) tocar(); else if (!visivel) parar();
-    }, { threshold: 0.35 }).observe(p);
-  } else if (!reduz) { tocar(); }
-  if (reduz) parar();
-  ir(0);
-})();
 </script>
 </body>
 </html>
