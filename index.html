@@ -230,6 +230,12 @@
 .fabula-completa summary{cursor:pointer}
 .fabula-completa p{margin:.8em 0 0}
 @media (prefers-reduced-motion:reduce){.palco *{animation:none!important;transition:none!important}}
+
+  /* música de fundo */
+  #btnMusica{position:fixed;right:18px;bottom:18px;z-index:50;width:52px;height:52px;border-radius:50%;border:0;cursor:pointer;
+    background:var(--roxo);color:#fff;font-size:1.4rem;box-shadow:0 6px 18px rgba(30,18,64,.35);display:flex;align-items:center;justify-content:center}
+  #btnMusica:hover{background:var(--roxo-escuro)}
+  #btnMusica.mudo{background:var(--cinza)}
 </style>
 </head>
 <body>
@@ -794,6 +800,61 @@ const obs = new IntersectionObserver(es => es.forEach(e => {
   if (e.isIntersecting) links.forEach(a => a.classList.toggle("ativo", a.getAttribute("href") === "#" + e.target.id));
 }), { rootMargin: "-45% 0px -50% 0px" });
 document.querySelectorAll("section[id]").forEach(s => obs.observe(s));
+</script>
+
+<!-- ===== Música de fundo ===== -->
+<audio id="musicaFundo" src="musica/atencao.mp3" loop preload="auto"></audio>
+<button id="btnMusica" type="button" aria-label="Pausar música" title="Pausar música">🔊</button>
+<script>
+(function(){
+  const musica = document.getElementById('musicaFundo');
+  const btn = document.getElementById('btnMusica');
+  const videos = Array.from(document.querySelectorAll('video'));
+  musica.volume = 0.35;
+  let mutadoPeloUsuario = false;
+
+  function atualizaBotao(){
+    const tocando = !musica.paused;
+    btn.textContent = tocando ? '🔊' : '🔇';
+    btn.classList.toggle('mudo', !tocando);
+    btn.title = btn.ariaLabel = tocando ? 'Pausar música' : 'Tocar música';
+  }
+  function algumVideoTocando(){ return videos.some(v => !v.paused && !v.ended); }
+  function tocarMusica(){
+    if (mutadoPeloUsuario || algumVideoTocando()) return;
+    musica.play().then(atualizaBotao).catch(atualizaBotao);
+  }
+
+  // Inicia ao abrir o site. Se o navegador bloquear o autoplay,
+  // começa na primeira interação (clique, toque, tecla ou rolagem).
+  tocarMusica();
+  const eventos = ['pointerdown','keydown','touchstart','scroll'];
+  function primeiraInteracao(e){
+    if (e.target === btn) return;
+    if (musica.paused) tocarMusica();
+    if (!musica.paused) eventos.forEach(ev => removeEventListener(ev, primeiraInteracao));
+  }
+  eventos.forEach(ev => addEventListener(ev, primeiraInteracao, {passive:true}));
+
+  // Vídeos: quando um toca, a música e os outros vídeos param.
+  videos.forEach(v => {
+    v.addEventListener('play', () => {
+      videos.forEach(o => { if (o !== v && !o.paused) o.pause(); });
+      musica.pause(); atualizaBotao();
+    });
+    // Quando nenhum vídeo estiver tocando, a música volta.
+    const retomar = () => setTimeout(() => { if (!algumVideoTocando()) tocarMusica(); }, 300);
+    v.addEventListener('pause', retomar);
+    v.addEventListener('ended', retomar);
+  });
+
+  btn.addEventListener('click', () => {
+    if (musica.paused){ mutadoPeloUsuario = false; tocarMusica(); }
+    else { mutadoPeloUsuario = true; musica.pause(); atualizaBotao(); }
+  });
+  musica.addEventListener('play', atualizaBotao);
+  musica.addEventListener('pause', atualizaBotao);
+})();
 </script>
 </body>
 </html>
